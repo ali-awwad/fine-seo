@@ -1,0 +1,12 @@
+{
+  "resources/css/addon.css": {
+    "file": "assets/addon-ccc4db68.css",
+    "isEntry": true,
+    "src": "resources/css/addon.css"
+  },
+  "resources/js/addon.js": {
+    "file": "assets/addon-03375f56.js",
+    "isEntry": true,
+    "src": "resources/js/addon.js"
+  }
+}

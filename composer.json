@@ -1,0 +1,37 @@
+{
+    "name": "ali-awwad/fine-seo",
+    "autoload": {
+        "psr-4": {
+            "AliAwwad\\FineSeo\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AliAwwad\\FineSeo\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "statamic/cms": "^5.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Statamic Fine Seo",
+            "description": "Statamic Fine Seo addon"
+        },
+        "laravel": {
+            "providers": [
+                "AliAwwad\\FineSeo\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
