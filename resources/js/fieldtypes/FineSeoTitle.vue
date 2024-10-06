@@ -15,7 +15,7 @@
                 </template>
             </text-input>
         </div>
-        <progress-bar :value="value" :minChars="meta.minChars" :maxChars="meta.maxChars" />
+        <progress-bar :value="valueWithWebsiteTitle" :minChars="meta.minChars" :maxChars="meta.maxChars" />
     </div>
 
 </template>
