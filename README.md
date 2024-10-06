@@ -25,6 +25,8 @@ Add the following partial to your `layout.antlers.html`
 
 `{{ partial:fine-seo::components/meta }}`
 
+In case not all meta are required or further customiztion needed, then just copy the `/components/_meta.antlers.html` to your project and make the changes you like and call your own partial.
+
 ## How to Use
 
 Its straight forward addon, just visit the addon page and click on the blue button to generate the needed seo fields.
@@ -32,5 +34,6 @@ Its straight forward addon, just visit the addon page and click on the blue butt
 TODOs:
 [] Add Brand globals
 [] Add a youtube video to describe this
+[] Support JSON LD for website and organization
 
 Statamic marketplace has other paid SEO addons with so much more functionalities. But this Fine SEO addon is a simple way to get started.
