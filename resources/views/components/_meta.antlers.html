@@ -1,0 +1,16 @@
+{{ pageTitle = fine_seo_title ?? title }}
+{{ separator = brand.separator ?? ' - ' }}
+{{ siteTitle = brand.website_title ?? site.name }}
+<title>{{ pageTitle }}{{ separator }}{{ siteTitle }}</title>
+<meta name="description" content="{{ fine_seo_description }}">
+<meta name="og:title" content="{{ pageTitle }}{{ separator }}{{ siteTitle }}">
+<meta name="og:description" content="{{ fine_seo_description }}">
+<meta name="og:image" content="{{ fine_seo_image ?? brand.logo }}">
+<meta name="og:url" content="{{ url }}">
+<meta name="og:type" content="{{ yield:og_type }}website{{ /yield:og_type }}">
+<meta name="twitter:title" content="{{ pageTitle }}{{ separator }}{{ siteTitle }}">
+<meta name="twitter:description" content="{{ fine_seo_description }}">
+<meta name="twitter:image" content="{{ fine_seo_image ?? brand.logo }}">
+<meta name="twitter:card" content="summary_large_image">
+
+

@@ -19,6 +19,12 @@ You can search for this addon in the `Tools > Addons` section of the Statamic co
 composer require ali-awwad/fine-seo
 ```
 
+## Render meta in layout 
+
+Add the following partial to your `layout.antlers.html`
+
+`{{ partial:fine-seo::components/meta }}`
+
 ## How to Use
 
 Its straight forward addon, just visit the addon page and click on the blue button to generate the needed seo fields.
