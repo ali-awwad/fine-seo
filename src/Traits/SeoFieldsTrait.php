@@ -38,4 +38,50 @@ trait SeoFieldsTrait
             ],
         ];
     }
+
+    public function getBrandFields(): array
+    {
+        return
+            [
+                // title translatable
+                [
+                    'handle' => 'title',
+                    'field' => [
+                        'type' => 'text',
+                        'display' => 'Title',
+                        'instructions' => 'The title of the brand',
+                        'localizable' => true,
+                        'width' => 100
+                    ]
+                ],
+                // logo
+                [
+                    'handle' => 'logo',
+                    'field' => [
+                        'type' => 'assets',
+                        'display' => 'Logo',
+                        'instructions' => 'The logo of the brand',
+                        'max_files' => 1,
+                        'width' => 50,
+                        'validate' => 'required|mime_types:image/jpeg,image/png,image/svg+xml',
+                        'container' => 'assets',
+                        'folder' => '/brand',
+                    ]
+                ],
+                // logo dark mode
+                [
+                    'handle' => 'logo_dark',
+                    'field' => [
+                        'type' => 'assets',
+                        'display' => 'Logo Dark Mode',
+                        'instructions' => 'The logo of the brand for dark mode',
+                        'max_files' => 1,
+                        'width' => 50,
+                        'validate' => 'required|mime_types:image/jpeg,image/png,image/svg+xml',
+                        'container' => 'assets',
+                        'folder' => '/brand',
+                    ]
+                ],
+            ];
+    }
 }

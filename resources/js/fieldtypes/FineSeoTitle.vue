@@ -3,7 +3,7 @@
     <div>
         <div class="flex items-center gap-4">
             <text-input class="flex-grow" 
-            :append="true" 
+            :append="(meta.websiteTitle && meta.websiteTitle.length>0) ? true : false" 
             :classes="{ 'text-gray-800 bg-gray-400': !value }"
             :value="value ?? this.formValues.title" @input="updateDebounced">
                 <template v-slot:append>
@@ -43,7 +43,7 @@ export default {
             return this.formValues.title ?? this.value;
         },
         valueWithWebsiteTitle() {
-            return this.meta.websiteTitle + ' ' + this.value;
+            return this.meta.websiteTitle ? this.meta.websiteTitle + ' ' + this.value : this.value;
         },
         
     },

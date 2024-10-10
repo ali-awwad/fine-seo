@@ -62,8 +62,15 @@ class FineSeoPreview extends Fieldtype
     public function preload()
     {
         // get fields' page blueprint
-        $blueprint = $this->field()->parent()->blueprint();
+        $parentPage = $this->field()?->parent();
         $maxChars = null;
+        $blueprint = null;
+
+        if($parentPage && $parentPage instanceof \Statamic\Entries\Entry) {
+            $blueprint = $parentPage->blueprint();
+        } else {
+            return [];
+        }
 
         if($blueprint && $blueprint instanceof \Statamic\Fields\Blueprint) {
             $descriptionField = $blueprint->fields()->get('fine_seo_description');

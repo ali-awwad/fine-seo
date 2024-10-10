@@ -2,24 +2,64 @@
 
 namespace AliAwwad\FineSeo\Http\Controllers;
 
+use AliAwwad\FineSeo\Actions\GetCollectionsWithSeo;
+use AliAwwad\FineSeo\Actions\ImportFineSeoIntoCollection;
 use AliAwwad\FineSeo\Traits\SeoFieldsTrait;
 use Statamic\Facades\Collection;
 use Statamic\Facades\CP\Toast;
 use Statamic\Facades\Fieldset;
+use Illuminate\Http\Request;
+use Statamic\Facades\Blueprint;
+use Statamic\Facades\GlobalSet;
+use Statamic\Facades\Site;
 
 class SeoFieldsController
 {
     use SeoFieldsTrait;
 
-
     public function index()
     {
-        return view('fine-seo::index');
+        return view('fine-seo::index', [
+            'title' => 'SEO Fields Setup',
+            'collections' => GetCollectionsWithSeo::execute()
+        ]);
     }
 
-    public function setup()
+    public function brand(Request $request)
     {
+        $global = GlobalSet::make('brand')->title('Brand');
+        foreach (Site::all() as $site) {
+            $global->addLocalization($global->makeLocalization($site->handle()));
+        }
+        $global->save();
+        $blueprint = Blueprint::make('brand')->setNamespace('globals');
+        $blueprint->setContents([
+            'tabs' => [
+                'main' => [
+                    'sections' => [
+                        [
+                            'display' => 'Brand',
+                            'instructions' => 'Brand settings',
+                            'fields' => $this->getBrandFields()
+                        ]
+                    ]
+                ]
+            ]
+        ]);
 
+        $blueprint->save();
+
+        Toast::success('Brand fields have been setup!');
+        return redirect()->cpRoute('fine-seo.index');
+    }
+
+    public function setup(Request $request)
+    {
+        $request->validate([
+            'collections' => 'nullable|array'
+        ]);
+
+        // save seo fields as a fieldset
         $fieldset = Fieldset::make('fine_seo');
         $fieldset->title('Fine SEO');
         $fieldset->setContents([
@@ -27,33 +67,25 @@ class SeoFieldsController
         ]);
         $fieldset->save();
 
-        $pagesCollection = Collection::findByHandle('pages');
+        $alreadyImported = GetCollectionsWithSeo::execute()->filter(function ($collection) {
+            return $collection->hasFineSeo;
+        });
 
-        // add the fieldset to the blueprint
-        /** @var \Statamic\Fields\Blueprint $blueprint */
-        $blueprint = $pagesCollection->entryBlueprints()->first();
+        // unset the fieldset from collections that already have it but not in the selected collections
+        foreach ($alreadyImported as $collection) {
+            if (!in_array($collection->handle, ($request->collections ?? []))) {
 
-        // array of fields
-        // as tabs > tabName > sections > section# > fields > field#
-        $blueprintContents = $blueprint->contents();
+                /** @var \Statamic\Fields\Blueprint $blueprint */
+                $blueprint = $collection->entryBlueprints()->first();
+                $blueprint->removeTab('fineSeo');
+                $blueprint->save();
+            }
+        }
 
-        $blueprintContents['tabs']['fineSeo'] = [
-            'display' => 'Fine SEO',
-            'sections' => [
-                [
-                    'display' => 'Fine SEO',
-                    'instructions' => __('fine-seo::messages.fine_seo_section_instructions'),
-                    'fields' => [
-                        ['import' => 'fine_seo']
-                    ]
-                ],
-            ]
-        ];
-
-        $blueprint->setContents($blueprintContents);
-
-        // Save the updated blueprint
-        $blueprint->save();
+        // Import the fieldset into the selected collections
+        foreach (($request->collections ?? []) as $key => $collectionHandle) {
+            ImportFineSeoIntoCollection::execute($collectionHandle);
+        }
 
 
         Toast::success('SEO fields have been setup!');

@@ -62,6 +62,7 @@ class FineSeoTitle extends Fieldtype
     public function preload()
     {
         $parentPage = $this->field->parent();
+        /** @var \Statamic\Entries\Site|null $site */
         $site = null;
         $defaultTitle = null;
         if($parentPage instanceof \Statamic\Entries\Entry) {
@@ -73,9 +74,12 @@ class FineSeoTitle extends Fieldtype
         
      
         $brand = GlobalSet::findByHandle('brand');
-        $websiteTitle = config('app.name');
+        $websiteTitle = null;
         if($brand) {
             $websiteTitle = $brand->in($site)->get('title');
+        }
+        else {
+            $websiteTitle = $site->name();
         }
         return [
             'pageTitle' => $defaultTitle,
