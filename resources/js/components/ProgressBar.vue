@@ -11,30 +11,21 @@
 </template>
 
 <script>
+export default {
+    props: ['value', 'minChars', 'maxChars'],
 
-    export default {
-        mounted() {
-            console.log('ProgressBar mounted');
-        },
-        props: ['value', 'minChars', 'maxChars'],
+    mixins: [Fieldtype],
 
-        mixins: [Fieldtype],
-
-        data() {
+    computed: {
+        progressColor() {
             return {
-                //
+                'bg-yellow-500': this.value?.length < this.minChars,
+                'bg-green-500': this.value?.length >= this.minChars && this.value?.length <= this.maxChars,
+                'bg-red-500': this.value?.length > this.maxChars,
+
             };
-        },
-        computed: {
-            progressColor() {
-                return {
-                    'bg-yellow-500': this.value?.length < this.minChars,
-                    'bg-green-500': this.value?.length >= this.minChars && this.value?.length <= this.maxChars,
-                    'bg-red-500': this.value?.length > this.maxChars,
+        }
+    },
 
-                };
-            }
-        },
-
-    };
+};
 </script>

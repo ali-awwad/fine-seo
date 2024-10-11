@@ -3,19 +3,19 @@
     <div>
         <div class=" flex gap-4 justify-end max-w-lg w-full">
             <!-- Image preview -->
-            <img v-if="image"  class="w-24 h-24 object-cover rounded-lg" :src="image" alt="SEO Preview Image">
+            <img v-if="image" class="w-24 h-24 object-cover rounded-lg" :src="image" alt="SEO Preview Image">
             <div v-else class="w-24 h-24 bg-gray-200 rounded-lg"></div>
             <!-- Text Preview -->
             <div class="flex-grow items-start align-top">
 
                 <h2 class="text-lg sm:text-xl font-bold text-blue-700 text-wrap">
-                    {{ formValues.fine_seo_title }}
+                    {{ finalTitle }}
                 </h2>
 
                 <p v-if="meta.url" class="text-sm text-green-600 truncate">
                     {{ meta.url }}
                 </p>
-                
+
                 <p class="text-sm sm:text-base text-gray-700 mt-1">
                     {{ truncatedDescription }}
                 </p>
@@ -47,6 +47,11 @@ export default {
         },
         formValues() {
             return this.$store.state.publish[this.storeName].values;
+        },
+        finalTitle() {
+            return (!this.formValues.fine_seo_is_title_custom || !this.meta.websiteTitle)
+                ? this.formValues.fine_seo_title + ' ' + this.meta.websiteSeparator + ' ' + this.meta.websiteTitle
+                : this.formValues.fine_seo_title
         },
     },
 

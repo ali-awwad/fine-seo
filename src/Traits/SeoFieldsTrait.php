@@ -14,6 +14,14 @@ trait SeoFieldsTrait
                 'width' => 100,
                 'localizable' => true,
             ],
+            'fine_seo_is_title_custom' => [
+                'type' => 'toggle',
+                'display' => __('Custom Title'),
+                // hidden field
+                'visibility' => 'hidden',
+                'instructions' => __('fine-seo::messages.fine_seo_is_title_custom_instructions'),
+                'width' => 100,
+            ],
             'fine_seo_description' => [
                 'type' => 'fine_seo_description',
                 'display' => __('SEO Description'),
@@ -51,7 +59,25 @@ trait SeoFieldsTrait
                         'display' => 'Title',
                         'instructions' => 'The title of the brand',
                         'localizable' => true,
-                        'width' => 100
+                        'required' => true,
+                        'width' => 50
+                    ]
+                ],
+                // separator - select with options |, -, .
+                [
+                    'handle' => 'separator',
+                    'field' => [
+                        'type' => 'select',
+                        'display' => 'Separator',
+                        'instructions' => 'The separator between the title and the description',
+                        'options' => [
+                            '-' => '-',
+                            '|' => '|',
+                            '.' => '.',
+                        ],
+                        'default' => '-',
+                        'required' => true,
+                        'width' => 50
                     ]
                 ],
                 // logo
@@ -63,7 +89,7 @@ trait SeoFieldsTrait
                         'instructions' => 'The logo of the brand',
                         'max_files' => 1,
                         'width' => 50,
-                        'validate' => 'required|mime_types:image/jpeg,image/png,image/svg+xml',
+                        // 'validate' => 'null|mime_types:image/jpeg,image/png,image/svg+xml',
                         'container' => 'assets',
                         'folder' => '/brand',
                     ]
@@ -77,7 +103,7 @@ trait SeoFieldsTrait
                         'instructions' => 'The logo of the brand for dark mode',
                         'max_files' => 1,
                         'width' => 50,
-                        'validate' => 'required|mime_types:image/jpeg,image/png,image/svg+xml',
+                        // 'validate' => 'required|mime_types:image/jpeg,image/png,image/svg+xml',
                         'container' => 'assets',
                         'folder' => '/brand',
                     ]

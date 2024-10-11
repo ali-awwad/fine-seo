@@ -65,9 +65,10 @@ class FineSeoPreview extends Fieldtype
         $parentPage = $this->field()?->parent();
         $maxChars = null;
         $blueprint = null;
-
+        $site = null;
         if($parentPage && $parentPage instanceof \Statamic\Entries\Entry) {
             $blueprint = $parentPage->blueprint();
+            $site = $parentPage->site();
         } else {
             return [];
         }
@@ -79,7 +80,21 @@ class FineSeoPreview extends Fieldtype
             }
         }
 
+        $brand = GlobalSet::findByHandle('brand');
+        $websiteTitle = null;
+        $websiteSeparator = null;
+        if($brand) {
+            $websiteTitle = $brand->in($site->handle())->get('title');
+            $websiteSeparator = $brand->in($site->handle())->get('separator');
+        }
+        else {
+            $websiteTitle = $site->name();
+            $websiteSeparator = '-';
+        }
+
         return [
+            'websiteTitle' => $websiteTitle,
+            'websiteSeparator' => $websiteSeparator,
             'url' => $this->field()?->parent()?->absoluteUrl(),
             'maxChars' => $maxChars,
         ];

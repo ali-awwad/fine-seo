@@ -1,7 +1,13 @@
 {{ pageTitle = fine_seo_title ?? title }}
 {{ separator = brand.separator ?? ' - ' }}
 {{ siteTitle = brand.website_title ?? site.name }}
-<title>{{ pageTitle }}{{ separator }}{{ siteTitle }}</title>
+{{if fine_seo_is_title_custom == true }}
+    {{pageTitle = fine_seo_title}}
+{{else}}
+    {{ pageTitle = pageTitle + ' ' + separator + ' ' + siteTitle }}
+{{/if}}
+
+<title>{{ pageTitle }}</title>
 <meta name="description" content="{{ fine_seo_description }}">
 <meta name="og:title" content="{{ pageTitle }}{{ separator }}{{ siteTitle }}">
 <meta name="og:description" content="{{ fine_seo_description }}">
