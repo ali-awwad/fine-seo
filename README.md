@@ -32,9 +32,10 @@ In case not all meta are required or further customiztion needed, then just copy
 Its straight forward addon, just visit the addon page and click on the blue button to generate the needed seo fields.
 
 TODOs:
-- [] Add Tests
-- [] Add Brand globals
-- [] Add a youtube video to describe this
-- [] Support JSON LD for website and organization
+
+- Add Tests
+- Support Breadcrumbs
+- Add a youtube video to describe this
+- Support JSON LD for website and organization
 
 Statamic marketplace has other paid SEO addons with so much more functionalities. But this Fine SEO addon is a simple way to get started.

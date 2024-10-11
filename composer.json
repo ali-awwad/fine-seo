@@ -1,5 +1,13 @@
 {
     "name": "ali-awwad/fine-seo",
+    "description": "Statamic Fine Seo addon",
+    "license": "MIT",
+    "keywords": [
+        "statamic",
+        "seo",
+        "ali awwad",
+        "laravel"
+    ],
     "autoload": {
         "psr-4": {
             "AliAwwad\\FineSeo\\": "src"
