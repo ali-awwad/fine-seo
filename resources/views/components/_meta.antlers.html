@@ -1,23 +1,48 @@
 {{ pageTitle = fine_seo_title ?? title }}
 {{ separator = brand.separator ?? ' - ' }}
-{{ siteTitle = brand.website_title ?? site.name }}
-{{if fine_seo_is_title_custom == true }}
-    {{pageTitle = fine_seo_title}}
-{{else}}
+{{ siteTitle = brand.website_title ?? brand.title ?? brand.name ?? site.name }}
+{{ if fine_seo_is_title_custom == true }}
+    {{ pageTitle = fine_seo_title }}
+{{ else }}
     {{ pageTitle = pageTitle + ' ' + separator + ' ' + siteTitle }}
-{{/if}}
-
+{{ /if }}
 <title>{{ pageTitle }}</title>
 <meta name="description" content="{{ fine_seo_description }}">
-<meta name="og:title" content="{{ pageTitle }}{{ separator }}{{ siteTitle }}">
-<meta name="og:description" content="{{ fine_seo_description }}">
-<meta name="og:image" content="{{ fine_seo_image ?? brand.logo }}">
-<meta name="og:url" content="{{ url }}">
-<meta name="og:type" content="{{ yield:og_type }}website{{ /yield:og_type }}">
-<meta name="og:site_name" content="{{ siteTitle }}">
-<meta name="twitter:title" content="{{ pageTitle }}{{ separator }}{{ siteTitle }}">
+<meta property="og:title" content="{{ pageTitle }}">
+<meta property="og:description" content="{{ fine_seo_description }}">
+<meta property="og:image" content="{{ fine_seo_image ?? brand.logo }}">
+<meta property="og:url" content="{{ url }}">
+<meta property="og:type" content="{{ yield:og_type }}website{{ /yield:og_type }}">
+<meta property="og:site_name" content="{{ siteTitle }}">
+<meta name="twitter:title" content="{{ pageTitle }}">
 <meta name="twitter:description" content="{{ fine_seo_description }}">
 <meta name="twitter:image" content="{{ fine_seo_image ?? brand.logo }}">
 <meta name="twitter:card" content="summary_large_image">
 
+{{# Breadcrumbs ld+json #}}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {{ nav:breadcrumbs }}
+            {
+                "@type": "ListItem",
+                "position": {{ count }},
+                "name": "{{ title }}",
+                "item": "{{ permalink }}"
+            }{{ if !last }},{{ /if }}
+            {{ /nav:breadcrumbs }}
+        ]
+    }
+</script>
 
+{{# Website LD JSON #}}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "{{ site:permalink }}",
+        "name": "{{ siteTitle }}"
+    }
+</script>
