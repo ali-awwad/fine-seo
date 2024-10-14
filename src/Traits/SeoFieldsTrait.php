@@ -60,24 +60,7 @@ trait SeoFieldsTrait
                         'instructions' => 'The title of the brand',
                         'localizable' => true,
                         'required' => true,
-                        'width' => 50
-                    ]
-                ],
-                // separator - select with options |, -, .
-                [
-                    'handle' => 'separator',
-                    'field' => [
-                        'type' => 'select',
-                        'display' => 'Separator',
-                        'instructions' => 'The separator between the title and the description',
-                        'options' => [
-                            '-' => '-',
-                            '|' => '|',
-                            '.' => '.',
-                        ],
-                        'default' => '-',
-                        'required' => true,
-                        'width' => 50
+                        'width' => 100
                     ]
                 ],
                 // logo
@@ -108,6 +91,47 @@ trait SeoFieldsTrait
                         'folder' => '/brand',
                     ]
                 ],
+            ];
+    }
+
+    public function getSeoGlobalConfigFields(): array
+    {
+        return
+            [
+                // title translatable
+                [
+                    'handle' => 'title',
+                    'field' => [
+                        'type' => 'text',
+                        
+                        'display' => 'Title',
+                        'instructions' => 'The website title to be used. Antlers can be used to display the title such as {{ brand.title }}',
+                        'instructions_position' => 'below',
+                        'localizable' => true,
+                        'required' => true,
+                        'width' => 50,
+                        'antlers' => true
+                    ]
+                ],
+                // separator - select with options |, -, .
+                [
+                    'handle' => 'separator',
+                    'field' => [
+                        'type' => 'select',
+                        'display' => 'Separator',
+                        'instructions' => 'The separator between the title and the description',
+                        'instructions_position' => 'below',
+                        'options' => [
+                            '-' => '-',
+                            '|' => '|',
+                            '.' => '.',
+                        ],
+                        'default' => '-',
+                        'required' => true,
+                        'width' => 50
+                    ]
+                ],
+                
             ];
     }
 }

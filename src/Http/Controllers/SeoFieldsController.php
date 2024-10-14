@@ -25,6 +25,36 @@ class SeoFieldsController
         ]);
     }
 
+    /**
+     * Add Global Fine SEO Config
+     */
+    public function configGlobal(Request $request)
+    {
+        $global = GlobalSet::make('fine_seo_config')->title('Fine SEO Config');
+        foreach (Site::all() as $site) {
+            $global->addLocalization($global->makeLocalization($site->handle()));
+        }
+        $global->save();
+        $blueprint = Blueprint::make('fine_seo_config')->setNamespace('globals');
+        $blueprint->setContents([
+            'tabs' => [
+                'main' => [
+                    'sections' => [
+                        [
+                            'display' => 'Config',
+                            'instructions' => 'SEO Config settings',
+                            'fields' => $this->getSeoGlobalConfigFields()
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $blueprint->save();
+
+        Toast::success('Fine SEO Config fields have been setup!');
+        return redirect()->cpRoute('fine-seo.index');
+    }
     public function brand(Request $request)
     {
         $global = GlobalSet::make('brand')->title('Brand');

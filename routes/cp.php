@@ -7,5 +7,6 @@ Route::get('fine-seo',[SeoFieldsController::class, 'index'])->name('fine-seo.ind
 
 Route::post('fine-seo/setup',[SeoFieldsController::class, 'setup'])->name('fine-seo.setup');
 Route::post('fine-seo/brand',[SeoFieldsController::class, 'brand'])->name('fine-seo.brand');
+Route::post('fine-seo/config',[SeoFieldsController::class, 'configGlobal'])->name('fine-seo.config');
 
 

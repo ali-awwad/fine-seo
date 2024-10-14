@@ -22,4 +22,6 @@ return [
 
     'customize_page_title'=>'Customize Page Title',
     'customize_page_title_long_description'=>'If you want to use a custom title for this entry. it will not contain the Website title or the separator.',
+    'setup_global_config'=>'Setup Global Config',
+    'setup_global_config_warning'=>'* You can use SEO alone without the Global Config. But it is recommended to set it up.',
 ];

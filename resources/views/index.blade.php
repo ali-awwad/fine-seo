@@ -46,6 +46,24 @@
     </div>
     <div class="mt-4 card">
         <h3>
+            @lang('fine-seo::messages.setup_global_config')
+        </h3>
+        <form method="POST" class="flex justify-between items-end" action="{{ cp_route('fine-seo.config') }}">
+            <div class="flex flex-col space-y-2">
+                @csrf
+                <p class="mt-4 text-red-500">
+                    @lang('fine-seo::messages.setup_global_config_warning')
+                </p>
+            </div>
+            <div>
+                <button class="btn-default">
+                    @lang('fine-seo::messages.setup_global_config')
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="mt-4 card">
+        <h3>
             @lang('fine-seo::messages.setup_global_brand')
         </h3>
         <form method="POST" class="flex justify-between items-end" action="{{ cp_route('fine-seo.brand') }}">

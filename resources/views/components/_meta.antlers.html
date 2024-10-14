@@ -1,6 +1,6 @@
 {{ pageTitle = fine_seo_title ?? title }}
-{{ separator = brand.separator ?? ' - ' }}
-{{ siteTitle = brand.website_title ?? brand.title ?? brand.name ?? site.name }}
+{{ separator = fine_seo_config.separator ?? ' - ' }}
+{{ siteTitle = fine_seo_config.website_title ?? fine_seo_config.title ?? brand.name ?? site.name }}
 {{ if fine_seo_is_title_custom == true }}
     {{ pageTitle = fine_seo_title }}
 {{ else }}
