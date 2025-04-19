@@ -2,10 +2,9 @@
 
 namespace AliAwwad\FineSeo\Fieldtypes;
 
+use Statamic\Facades\Antlers;
 use Statamic\Facades\GlobalSet;
-use Statamic\Facades\Site;
 use Statamic\Fields\Fieldtype;
-use Statamic\Fieldtypes\Text;
 
 class FineSeoPreview extends Fieldtype
 {
@@ -16,7 +15,7 @@ class FineSeoPreview extends Fieldtype
 
     protected function configFieldItems(): array
     {
-          return [
+        return [
             'character_limit_min' => [
                 'display' => __('Minimum Character Limit'),
                 'instructions' => __('fine-seo::messages.fine_seo_title_character_limit_min'),
@@ -33,14 +32,14 @@ class FineSeoPreview extends Fieldtype
                 'max' => 200,
                 'width' => 50,
             ],
-          ];
+        ];
     }
 
 
     public function defaultValue()
     {
         $parent = $this->field()->parent();
-        if($parent instanceof \Statamic\Entries\Entry) {
+        if ($parent instanceof \Statamic\Entries\Entry) {
             return $parent->get('title');
         }
 
@@ -66,16 +65,16 @@ class FineSeoPreview extends Fieldtype
         $maxChars = null;
         $blueprint = null;
         $site = null;
-        if($parentPage && $parentPage instanceof \Statamic\Entries\Entry) {
+        if ($parentPage && $parentPage instanceof \Statamic\Entries\Entry) {
             $blueprint = $parentPage->blueprint();
             $site = $parentPage->site();
         } else {
             return [];
         }
 
-        if($blueprint && $blueprint instanceof \Statamic\Fields\Blueprint) {
+        if ($blueprint && $blueprint instanceof \Statamic\Fields\Blueprint) {
             $descriptionField = $blueprint->fields()->get('fine_seo_description');
-            if($descriptionField && $descriptionField instanceof \Statamic\Fields\Field) {
+            if ($descriptionField && $descriptionField instanceof \Statamic\Fields\Field) {
                 $maxChars = $descriptionField->get('character_limit_max') ?? 160;
             }
         }
@@ -83,12 +82,20 @@ class FineSeoPreview extends Fieldtype
         $seoConfig = GlobalSet::findByHandle('fine_seo_config');
         $websiteTitle = null;
         $websiteSeparator = null;
-        if($seoConfig) {
+        if ($seoConfig) {
             $seoConfigInSite = $seoConfig->in($site->handle()) ?? $seoConfig->inDefaultSite();
             $websiteTitle = $seoConfigInSite->get('title');
             $websiteSeparator = $seoConfigInSite->get('separator');
-        }
-        else {
+            // if the title is antlers, such as {{ brand.title }}, or {{ company.name }}, we need to parse it
+
+            $globals = [];
+            foreach (GlobalSet::all() as $globalSet) {
+                $handle = $globalSet->handle(); // e.g., "brand", "company"
+                $globals[$handle] = $globalSet->inCurrentSite()->toAugmentedArray();
+            }
+            $websiteTitle = (string) Antlers::parse($websiteTitle, $globals);
+
+        } else {
             $websiteTitle = $site->name();
             $websiteSeparator = '-';
         }
