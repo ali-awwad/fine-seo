@@ -84,8 +84,9 @@ class FineSeoPreview extends Fieldtype
         $websiteTitle = null;
         $websiteSeparator = null;
         if($brand) {
-            $websiteTitle = $brand->in($site->handle())->get('title');
-            $websiteSeparator = $brand->in($site->handle())->get('separator');
+            $brandInSite = $brand->in($site->handle()) ?? $brand->inDefaultSite();
+            $websiteTitle = $brandInSite->get('title');
+            $websiteSeparator = $brandInSite->get('separator');
         }
         else {
             $websiteTitle = $site->name();

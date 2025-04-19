@@ -76,7 +76,8 @@ class FineSeoTitle extends Fieldtype
         $brand = GlobalSet::findByHandle('brand');
         $websiteTitle = null;
         if($brand) {
-            $websiteTitle = $brand->in($site->handle())->get('title');
+            $brandInSite = $brand->in($site->handle()) ?? $brand->inDefaultSite();
+            $websiteTitle = $brandInSite->get('title');
         }
         else {
             $websiteTitle = $site->name();
