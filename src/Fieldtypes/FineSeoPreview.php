@@ -36,24 +36,24 @@ class FineSeoPreview extends Fieldtype
           ];
     }
 
-    
+
     public function defaultValue()
     {
         $parent = $this->field()->parent();
         if($parent instanceof \Statamic\Entries\Entry) {
             return $parent->get('title');
         }
-        
+
         return null;
     }
 
-   
+
     public function preProcess($data)
     {
         return $data;
     }
 
-   
+
     public function process($data)
     {
         return $data;
@@ -80,13 +80,13 @@ class FineSeoPreview extends Fieldtype
             }
         }
 
-        $brand = GlobalSet::findByHandle('brand');
+        $seoConfig = GlobalSet::findByHandle('fine_seo_config');
         $websiteTitle = null;
         $websiteSeparator = null;
-        if($brand) {
-            $brandInSite = $brand->in($site->handle()) ?? $brand->inDefaultSite();
-            $websiteTitle = $brandInSite->get('title');
-            $websiteSeparator = $brandInSite->get('separator');
+        if($seoConfig) {
+            $seoConfigInSite = $seoConfig->in($site->handle()) ?? $seoConfig->inDefaultSite();
+            $websiteTitle = $seoConfigInSite->get('title');
+            $websiteSeparator = $seoConfigInSite->get('separator');
         }
         else {
             $websiteTitle = $site->name();

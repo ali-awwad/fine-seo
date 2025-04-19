@@ -73,11 +73,11 @@ class FineSeoTitle extends Fieldtype
         }
         
      
-        $brand = GlobalSet::findByHandle('brand');
+        $seoConfig = GlobalSet::findByHandle('fine_seo_config');
         $websiteTitle = null;
-        if($brand) {
-            $brandInSite = $brand->in($site->handle()) ?? $brand->inDefaultSite();
-            $websiteTitle = $brandInSite->get('title');
+        if($seoConfig) {
+            $seoConfigInSite = $seoConfig->in($site->handle()) ?? $seoConfig->inDefaultSite();
+            $websiteTitle = $seoConfigInSite->get('title');
         }
         else {
             $websiteTitle = $site->name();
