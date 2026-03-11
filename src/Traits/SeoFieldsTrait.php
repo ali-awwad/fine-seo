@@ -4,45 +4,59 @@ namespace AliAwwad\FineSeo\Traits;
 
 trait SeoFieldsTrait
 {
-    public function getSeoFields()
+    public function getSeoFields(): array
     {
         return [
-            'fine_seo_title' => [
-                'type' => 'fine_seo_title',
-                'display' => __('SEO Title'),
-                'instructions' => __('fine-seo::messages.fine_seo_title_instructions'),
-                'width' => 100,
-                'localizable' => true,
+            [
+                'handle' => 'fine_seo_title',
+                'field' => [
+                    'type' => 'fine_seo_title',
+                    'display' => __('SEO Title'),
+                    'instructions' => __('fine-seo::messages.fine_seo_title_instructions'),
+                    'width' => 100,
+                    'localizable' => true,
+                ],
             ],
-            'fine_seo_is_title_custom' => [
-                'type' => 'toggle',
-                'display' => __('Custom Title'),
-                // hidden field
-                'visibility' => 'hidden',
-                'instructions' => __('fine-seo::messages.fine_seo_is_title_custom_instructions'),
-                'width' => 100,
+            [
+                'handle' => 'fine_seo_is_title_custom',
+                'field' => [
+                    'type' => 'toggle',
+                    'display' => __('Custom Title'),
+                    'visibility' => 'hidden',
+                    'instructions' => __('fine-seo::messages.fine_seo_is_title_custom_instructions'),
+                    'width' => 100,
+                ],
             ],
-            'fine_seo_description' => [
-                'type' => 'fine_seo_description',
-                'display' => __('SEO Description'),
-                'instructions' => __('fine-seo::messages.fine_seo_description_instructions'),
-                'localizable' => true,
-                'width' => 100,
+            [
+                'handle' => 'fine_seo_description',
+                'field' => [
+                    'type' => 'fine_seo_description',
+                    'display' => __('SEO Description'),
+                    'instructions' => __('fine-seo::messages.fine_seo_description_instructions'),
+                    'localizable' => true,
+                    'width' => 100,
+                ],
             ],
-            'fine_seo_image' => [
-                'type' => 'assets',
-                'display' => __('SEO Image'),
-                'instructions' => __('fine-seo::messages.fine_seo_image_instructions'),
-                'max_files' => 1,
-                'width' => 100,
-                'container' => 'assets',
-                'folder' => '/my-images',
+            [
+                'handle' => 'fine_seo_image',
+                'field' => [
+                    'type' => 'assets',
+                    'display' => __('SEO Image'),
+                    'instructions' => __('fine-seo::messages.fine_seo_image_instructions'),
+                    'max_files' => 1,
+                    'width' => 100,
+                    'container' => 'assets',
+                    'folder' => '/seo-images',
+                ],
             ],
-            'fine_seo_preview' => [
-                'type' => 'fine_seo_preview',
-                'display' => __('SEO Preview'),
-                'instructions' => __('fine-seo::messages.fine_seo_preview_instructions'),
-                'width' => 100,
+            [
+                'handle' => 'fine_seo_preview',
+                'field' => [
+                    'type' => 'fine_seo_preview',
+                    'display' => __('SEO Preview'),
+                    'instructions' => __('fine-seo::messages.fine_seo_preview_instructions'),
+                    'width' => 100,
+                ],
             ],
         ];
     }

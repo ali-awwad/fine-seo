@@ -1,12 +1,13 @@
 {
   "resources/css/addon.css": {
-    "file": "assets/addon-492b3425.css",
-    "isEntry": true,
-    "src": "resources/css/addon.css"
+    "file": "assets/addon-ldaqI3Mq.css",
+    "src": "resources/css/addon.css",
+    "isEntry": true
   },
   "resources/js/addon.js": {
-    "file": "assets/addon-f4f0d605.js",
-    "isEntry": true,
-    "src": "resources/js/addon.js"
+    "file": "assets/addon-Bv095MSl.js",
+    "name": "addon",
+    "src": "resources/js/addon.js",
+    "isEntry": true
   }
 }

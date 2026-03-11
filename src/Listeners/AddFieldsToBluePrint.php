@@ -49,7 +49,7 @@ class addFieldsToBlueprint
                 'max_files' => 1,
                 'width' => 100,
                 'container' => 'assets',
-                'folder' => '/my-images',
+                'folder' => '/seo-images',
             ],
         ];
     }

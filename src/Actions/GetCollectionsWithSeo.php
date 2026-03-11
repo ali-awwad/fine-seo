@@ -8,13 +8,26 @@ class GetCollectionsWithSeo
 {
     public static function execute()
     {
-        $collections = Collection::all();
-        // map through colletions and check if fine_seo fieldset exists
-        return $collections->map(function ($collection) {
+        return Collection::all()->map(function ($collection) {
             $blueprint = $collection->entryBlueprints()->first();
-            $fields = $blueprint->fields();
-            $collection->hasFineSeo = collect($fields->items())->contains('import', 'fine_seo');
+            $collection->hasFineSeo = static::blueprintImportsFieldset($blueprint, 'fine_seo');
+
             return $collection;
         });
+    }
+
+    protected static function blueprintImportsFieldset($blueprint, string $fieldset): bool
+    {
+        foreach ($blueprint->contents()['tabs'] ?? [] as $tab) {
+            foreach ($tab['sections'] ?? [] as $section) {
+                foreach ($section['fields'] ?? [] as $field) {
+                    if (($field['import'] ?? null) === $fieldset) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

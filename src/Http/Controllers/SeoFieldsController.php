@@ -5,11 +5,12 @@ namespace AliAwwad\FineSeo\Http\Controllers;
 use AliAwwad\FineSeo\Actions\GetCollectionsWithSeo;
 use AliAwwad\FineSeo\Actions\ImportFineSeoIntoCollection;
 use AliAwwad\FineSeo\Traits\SeoFieldsTrait;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Statamic\Facades\Blueprint;
 use Statamic\Facades\Collection;
 use Statamic\Facades\CP\Toast;
 use Statamic\Facades\Fieldset;
-use Illuminate\Http\Request;
-use Statamic\Facades\Blueprint;
 use Statamic\Facades\GlobalSet;
 use Statamic\Facades\Site;
 
@@ -19,9 +20,15 @@ class SeoFieldsController
 
     public function index()
     {
-        return view('fine-seo::index', [
-            'title' => 'SEO Fields Setup',
-            'collections' => GetCollectionsWithSeo::execute()
+        $collections = GetCollectionsWithSeo::execute()->map(fn ($collection) => [
+            'handle' => $collection->handle(),
+            'title' => $collection->title(),
+            'hasFineSeo' => $collection->hasFineSeo,
+        ])->values();
+
+        return Inertia::render('fine-seo::Setup', [
+            'title' => __('fine-seo::messages.seo_title'),
+            'collections' => $collections,
         ]);
     }
 
@@ -31,10 +38,11 @@ class SeoFieldsController
     public function configGlobal(Request $request)
     {
         $global = GlobalSet::make('fine_seo_config')->title('Fine SEO Config');
-        foreach (Site::all() as $site) {
-            $global->addLocalization($global->makeLocalization($site->handle()));
-        }
         $global->save();
+
+        foreach (Site::all() as $site) {
+            $global->in($site->handle())->data([])->save();
+        }
         $blueprint = Blueprint::make('fine_seo_config')->setNamespace('globals');
         $blueprint->setContents([
             'tabs' => [
@@ -58,10 +66,11 @@ class SeoFieldsController
     public function brand(Request $request)
     {
         $global = GlobalSet::make('brand')->title('Brand');
-        foreach (Site::all() as $site) {
-            $global->addLocalization($global->makeLocalization($site->handle()));
-        }
         $global->save();
+
+        foreach (Site::all() as $site) {
+            $global->in($site->handle())->data([])->save();
+        }
         $blueprint = Blueprint::make('brand')->setNamespace('globals');
         $blueprint->setContents([
             'tabs' => [
@@ -103,7 +112,7 @@ class SeoFieldsController
 
         // unset the fieldset from collections that already have it but not in the selected collections
         foreach ($alreadyImported as $collection) {
-            if (!in_array($collection->handle, ($request->collections ?? []))) {
+            if (!in_array($collection->handle(), ($request->collections ?? []))) {
 
                 /** @var \Statamic\Fields\Blueprint $blueprint */
                 $blueprint = $collection->entryBlueprints()->first();

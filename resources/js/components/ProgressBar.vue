@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-between mt-1 items-center">
-        <div class="bg-gray-200 h-1 relative flex-grow">
+        <div class="bg-gray-200 h-1 relative grow">
             <div class="h-1 absolute inset-0 max-w-full" :class="progressColor"
                 :style="{ width: (value?.length * 100 / maxChars) + '%' }"></div>
         </div>
@@ -10,22 +10,22 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: ['value', 'minChars', 'maxChars'],
+<script setup>
+import { computed } from 'vue';
 
-    mixins: [Fieldtype],
+const props = defineProps({
+    value: String,
+    minChars: Number,
+    maxChars: Number,
+});
 
-    computed: {
-        progressColor() {
-            return {
-                'bg-yellow-500': this.value?.length < this.minChars,
-                'bg-green-500': this.value?.length >= this.minChars && this.value?.length <= this.maxChars,
-                'bg-red-500': this.value?.length > this.maxChars,
+const progressColor = computed(() => {
+    const len = props.value?.length ?? 0;
 
-            };
-        }
-    },
-
-};
+    return {
+        'bg-yellow-500': len < props.minChars,
+        'bg-green-500': len >= props.minChars && len <= props.maxChars,
+        'bg-red-500': len > props.maxChars,
+    };
+});
 </script>

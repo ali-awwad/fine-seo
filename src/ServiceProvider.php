@@ -37,7 +37,7 @@ class ServiceProvider extends AddonServiceProvider
             $nav->create('Fine SEO')
                 ->section('Tools')
                 ->route('fine-seo.index')
-                ->icon('seo-search-graph')
+                ->icon('search-magnifying-glass')
                 ;
         });
     }
