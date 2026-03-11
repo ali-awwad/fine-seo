@@ -38,6 +38,7 @@ class SeoFieldsController
     public function configGlobal(Request $request)
     {
         $global = GlobalSet::make('fine_seo_config')->title('Fine SEO Config');
+        $global->sites(Site::all()->map->handle()->values()->all());
         $global->save();
 
         foreach (Site::all() as $site) {
@@ -66,6 +67,7 @@ class SeoFieldsController
     public function brand(Request $request)
     {
         $global = GlobalSet::make('brand')->title('Brand');
+        $global->sites(Site::all()->map->handle()->values()->all());
         $global->save();
 
         foreach (Site::all() as $site) {
